@@ -14,7 +14,6 @@ class AirportManager:
         self.airports = {}
         self.flights = []
         self.numberOfAirport = 0
-        self.types = {'S': 1, 'M': 2, 'L': 3}
 
     def addAirport(self, airport):
         if airport.id in self.airports.keys():
@@ -29,9 +28,6 @@ class AirportManager:
 
     def addFlight(self, src: str, dest: str, its_types, time, cost):
         if src not in self.airports.keys() or dest not in self.airports.keys():
-            return -1
-        if self.types[its_types] > self.types[self.airports[src]['its_type']] or self.types[its_types] > self.types[
-            self.airports[dest]['its_type']]:
             return -1
         indexSrc = self.airports[src]['index']
         indexDest = self.airports[dest]['index']
@@ -81,6 +77,13 @@ class AirportManager:
                 min = dist[u]
                 min_index = u
         return min_index
+
+    def findFlight(self, src: str, dest: str):
+        if src not in self.airports.keys() or dest not in self.airports.keys():
+            return -1
+        indexSrc = self.airports[src]['index']
+        indexDest = self.airports[dest]['index']
+        return self.flights[indexSrc][indexDest]
 
     def findShortestPath(self, src: str, dest: str, mode: int):
         if src not in self.airports.keys() or dest not in self.airports.keys():
@@ -134,30 +137,3 @@ class AirportManager:
         if count == 0:
             print("No flights")
         print('---------------------------------------------------------------------------------------')
-
-
-manager = AirportManager()
-airport1 = Airport('1', 20, 11, 'L')
-airport2 = Airport('2', 100, 100, 'L')
-airport3 = Airport('3', 50, 100, 'L')
-airport4 = Airport('4', 1, 2, 'L')
-manager.addAirport(airport1)
-manager.addAirport(airport2)
-manager.addAirport(airport3)
-manager.addAirport(airport4)
-
-manager.addFlight('1', '2', 'S', 5, 1)
-manager.addFlight('1', '3', 'S', 1, 1)
-manager.addFlight('2', '3', 'S', 3, 1)
-manager.addFlight('2', '4', 'S', 1, 1)
-manager.addFlight('3', '4', 'S', 1, 1)
-
-value, route = manager.findShortestPath('1', '2', 2)
-print(route)
-print(value)
-print(f'{manager.flights[route[0]][route[1]][0]}', end="")
-for i in range(1, len(route)):
-    print(f'>>{manager.flights[route[i-1]][route[i]][1]}', end="")
-print()
-
-manager.showAllFlights()
