@@ -92,7 +92,7 @@ if __name__ == "__main__":
                 print("Invalid airport type!")
                 continue
             airport = Airport(id, x, y, its_type)
-            temp = manager.updateAirport(id)
+            temp = manager.updateAirport(airport)
             if temp == -1:
                 print(">> Airport is not already in system!")
                 continue
@@ -122,8 +122,8 @@ if __name__ == "__main__":
                 continue
             print(">> Flight is updated to system!")
         elif menu.selection == 5:
-            id = int(input("Enter airport ID: "))
-            if manager.updateAirport(id) == -1:
+            id = input("Enter airport ID: ")
+            if manager.deleteAirport(id) == -1:
                 print(">> Airport is not already in system!")
                 continue
             print(">> Airport is deleted from system!")
@@ -148,8 +148,9 @@ if __name__ == "__main__":
             if info == -1:
                 print(">> Airport is not available!")
                 continue
+            print(info)
             print(
-                f'ID: {id}, Location: {info[0], info[1]}, Type: {info[2]}, Time: {info[3]}')
+                f'ID: {id}, Location: {info["x"], info["y"]}, Type: {info["its_type"]}')
         elif menu.selection == 9:
             manager.showAllAirports()
         elif menu.selection == 10:
